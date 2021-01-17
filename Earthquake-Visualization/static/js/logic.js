@@ -20,7 +20,7 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 // Grab the data with d3
 d3.json(queryUrl, function(data) {
     console.log(data);
-    
+
     // Create style function
     function markerStyle(feature) {
         return {
@@ -33,8 +33,8 @@ d3.json(queryUrl, function(data) {
           weight: 0.5
         };
       }
-      // Set Color based on Magnitude
-        function markerColor(magnitude) {
+    // Set Color based on Magnitude
+    function markerColor(magnitude) {
         switch (true) {
         case magnitude > 5:
           return "#ea2c2c";
@@ -47,7 +47,7 @@ d3.json(queryUrl, function(data) {
         case magnitude > 1:
           return "#d4ee00";
         default:
-          return "#98ee00";
+          return "#ff3333";
         }
       }
       // Set Radius based on Magnitude
@@ -59,4 +59,20 @@ d3.json(queryUrl, function(data) {
         return magnitude * 4;
       }
 
+    // GeoJSON
+    L.geoJson(data, {
+        // Make circles
+        pointToLayer: function(feature, latlng) {
+          return L.circleMarker(latlng);
+        },
+        // Marker style
+        style: styleInfo,
+
+        // bindPopup to each marker
+        onEachFeature: function(feature, layer) {
+          layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
+        }
+    }).addTo(myMap);
+
 });
+
