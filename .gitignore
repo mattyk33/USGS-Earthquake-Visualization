@@ -128,4 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+Earthquake-Visualization/static/js/config.js
 config.js
