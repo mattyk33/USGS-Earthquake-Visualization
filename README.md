@@ -1,4 +1,4 @@
-# Leaflet Homework - Visualizing Data with Leaflet
+# USGS - Visualizing Data with Leaflet
 
 ## Background
 
