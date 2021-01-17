@@ -20,5 +20,43 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 // Grab the data with d3
 d3.json(queryUrl, function(data) {
     console.log(data);
+    
+    // Create style function
+    function markerStyle(feature) {
+        return {
+          opacity: 1,
+          fillOpacity: 1,
+          fillColor: markerColor(feature.properties.mag),
+          color: "#000000",
+          radius: markerRadius(feature.properties.mag),
+          stroke: true,
+          weight: 0.5
+        };
+      }
+      // Set Color based on Magnitude
+        function markerColor(magnitude) {
+        switch (true) {
+        case magnitude > 5:
+          return "#ea2c2c";
+        case magnitude > 4:
+          return "#ea822c";
+        case magnitude > 3:
+          return "#ee9c00";
+        case magnitude > 2:
+          return "#eecc00";
+        case magnitude > 1:
+          return "#d4ee00";
+        default:
+          return "#98ee00";
+        }
+      }
+      // Set Radius based on Magnitude
+        function markerRadius(magnitude) {
+        if (magnitude === 0) {
+          return 1;
+        }
+    
+        return magnitude * 4;
+      }
 
 });
