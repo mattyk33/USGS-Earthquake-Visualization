@@ -24,8 +24,8 @@ d3.json(queryUrl, function(data) {
     // Create style function
     function markerStyle(feature) {
         return {
-          opacity: 1,
-          fillOpacity: 1,
+          opacity: 0.5,
+          fillOpacity: 0.5,
           fillColor: markerColor(feature.properties.mag),
           color: "#000000",
           radius: markerRadius(feature.properties.mag),
@@ -39,13 +39,13 @@ d3.json(queryUrl, function(data) {
         case magnitude > 5:
           return "#ea2c2c";
         case magnitude > 4:
-          return "#ea822c";
+          return "#eaa92c";
         case magnitude > 3:
-          return "#ee9c00";
+          return "#d5ea2c";
         case magnitude > 2:
-          return "#eecc00";
+          return "#92ea2c";
         case magnitude > 1:
-          return "#d4ee00";
+          return "#2ceabf";
         default:
           return "#ff3333";
         }
@@ -66,13 +66,39 @@ d3.json(queryUrl, function(data) {
           return L.circleMarker(latlng);
         },
         // Marker style
-        style: styleInfo,
+        style: markerStyle,
 
         // bindPopup to each marker
         onEachFeature: function(feature, layer) {
           layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
         }
     }).addTo(myMap);
+
+    // Create legend variable
+    var legend = L.control({
+        position: "bottomright"
+      });
+      
+      // Legend function
+      legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "info legend");
+    
+        var mags = [0, 1, 2, 3, 4, 5];
+        var colors = ["#ff3333", "#2ceabf", "#92ea2c", "#d5ea2c","#eaa92c", "#ea2c2c"];
+    
+    
+      // Loop through the intervals of colors to  in legend
+        for (var i = 0; i<mags.length; i++) {
+          div.innerHTML +=
+          "<i style='background: " + colors[i] + "'></i> " +
+          mags[i] + (mags[i + 1] ? "&ndash;" + mags[i + 1] + "<br>" : "+");
+        }
+        return div;
+    
+      };
+
+      // Add legend to map
+      legend.addTo(myMap);
 
 });
 
