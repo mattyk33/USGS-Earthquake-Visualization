@@ -22,13 +22,13 @@ d3.json(queryUrl, function(data) {
     console.log(data);
 
     // Create style function
-    function markerStyle(feature) {
+    function markerStyle(features) {
         return {
           opacity: 0.5,
           fillOpacity: 0.5,
-          fillColor: markerColor(feature.properties.mag),
+          fillColor: markerColor(features.properties.mag),
           color: "#000000",
-          radius: markerRadius(feature.properties.mag),
+          radius: markerRadius(features.properties.mag),
           stroke: true,
           weight: 0.5
         };
@@ -62,15 +62,15 @@ d3.json(queryUrl, function(data) {
     // GeoJSON
     L.geoJson(data, {
         // Make circles
-        pointToLayer: function(feature, latlng) {
+        pointToLayer: function(features, latlng) {
           return L.circleMarker(latlng);
         },
         // Marker style
         style: markerStyle,
 
         // bindPopup to each marker
-        onEachFeature: function(feature, layer) {
-          layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
+        onEachFeature: function(features, layer) {
+          layer.bindPopup("Magnitude: " + features.properties.mag + "<br>Location: " + features.properties.place);
         }
     }).addTo(myMap);
 
@@ -87,7 +87,7 @@ d3.json(queryUrl, function(data) {
         var colors = ["#ff3333", "#2ceabf", "#92ea2c", "#d5ea2c","#eaa92c", "#ea2c2c"];
     
     
-      // Loop through the intervals of colors to  in legend
+      // Loop through the intervals of colors to append in legend
         for (var i = 0; i<mags.length; i++) {
           div.innerHTML +=
           "<i style='background: " + colors[i] + "'></i> " +
