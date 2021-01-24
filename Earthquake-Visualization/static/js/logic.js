@@ -37,17 +37,17 @@ d3.json(queryUrl, function(data) {
     function markerColor(magnitude) {
         switch (true) {
         case magnitude > 5:
-          return "#ea2c2c";
+          return "#bd0026";
         case magnitude > 4:
-          return "#eaa92c";
+          return "#f03b20";
         case magnitude > 3:
-          return "#d5ea2c";
+          return "#fd8d3c";
         case magnitude > 2:
-          return "#92ea2c";
+          return "#feb24c";
         case magnitude > 1:
-          return "#2ceabf";
+          return "#fed976";
         default:
-          return "#ff3333";
+          return "#ffffb2";
         }
       }
       // Set Radius based on Magnitude
@@ -81,16 +81,15 @@ d3.json(queryUrl, function(data) {
       
       // Legend function
       legend.onAdd = function() {
-        var div = L.DomUtil.create("div", "info legend");
+        var div = L.DomUtil.create("div", "legend");
     
         var mags = [0, 1, 2, 3, 4, 5];
-        var colors = ["#ff3333", "#2ceabf", "#92ea2c", "#d5ea2c","#eaa92c", "#ea2c2c"];
     
     
       // Loop through the intervals of colors to append in legend
         for (var i = 0; i<mags.length; i++) {
           div.innerHTML +=
-          "<i style='background: " + colors[i] + "'></i> " +
+          "<i style='background: " + markerColor(i) + "'></i> " +
           mags[i] + (mags[i + 1] ? "&ndash;" + mags[i + 1] + "<br>" : "+");
         }
         return div;
@@ -101,4 +100,3 @@ d3.json(queryUrl, function(data) {
       legend.addTo(myMap);
 
 });
-
